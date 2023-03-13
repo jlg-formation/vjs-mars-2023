@@ -7,7 +7,8 @@
     "start": "nodemon src/server.ts",
     "build": "tsc",
     "start:prod": "node dist/server.js",
-    "clean": "rimraf dist"
+    "clean": "rimraf dist",
+    "lint": "eslint ."
   },
   "keywords": [],
   "author": "",
