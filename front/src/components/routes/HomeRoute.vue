@@ -5,4 +5,8 @@
   </main>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+main {
+  justify-content: center;
+}
+</style>
