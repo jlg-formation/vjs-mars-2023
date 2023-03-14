@@ -1,3 +1,5 @@
+<script setup lang="ts"></script>
+
 <template>
   <footer>
     <RouterLink to="/legal"> Mentions Légales </RouterLink>

@@ -1,6 +1,7 @@
 <template>
   <main>
-    <p>Home component</p>
+    <h1>Gérer efficacement votre stock !</h1>
+    <a href="#" class="button primary">Voir le stock</a>
   </main>
 </template>
 
