@@ -1,3 +1,4 @@
+import { stockRouteConfig } from '@/stock'
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeRoute from '../components/routes/HomeRoute.vue'
 
@@ -16,7 +17,8 @@ const router = createRouter({
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('../components/routes/LegalRoute.vue')
-    }
+    },
+    stockRouteConfig
   ]
 })
 
