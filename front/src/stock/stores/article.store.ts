@@ -1,6 +1,7 @@
-import { ref, computed } from 'vue'
+import { generateId } from '@/misc'
 import { defineStore } from 'pinia'
-import type { Article } from './interfaces/article'
+import { computed, ref } from 'vue'
+import type { Article, NewArticle } from './interfaces/article'
 
 export const useArticleStore = defineStore('articles', () => {
   const articles = ref<Article[]>([
@@ -8,8 +9,10 @@ export const useArticleStore = defineStore('articles', () => {
     { id: 'a2', name: 'Pelle', price: 3, qty: 78 }
   ])
   const total = computed(() => articles.value.length)
-  const add = () => {
-    throw new Error('not implemented')
+  const add = (newArticle: NewArticle) => {
+    console.log('newArticle: ', newArticle)
+    const article = { ...newArticle, id: generateId() }
+    articles.value.push(article)
   }
   const remove = () => {
     throw new Error('not implemented')
