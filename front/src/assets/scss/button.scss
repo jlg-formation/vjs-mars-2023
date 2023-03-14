@@ -3,7 +3,7 @@ a.button {
   border: 0.1em solid #eee;
   background-color: #eee;
   padding: 0.5em 1em;
-  border-radius: 0.3em;
+  border-radius: var(--border-radius);
 
   display: flex;
   align-items: center;
