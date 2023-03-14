@@ -1,7 +1,20 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import { useArticleStore } from '../stores/article.store'
+import type { Article } from '../stores/interfaces/article'
 
 const { articles } = useArticleStore()
+
+const selectedArticles = ref(new Set<Article>())
+
+const select = (a: Article) => {
+  console.log('a: ', a)
+  if (selectedArticles.value.has(a)) {
+    selectedArticles.value.delete(a)
+    return
+  }
+  selectedArticles.value.add(a)
+}
 </script>
 
 <template>
@@ -15,7 +28,7 @@ const { articles } = useArticleStore()
         <RouterLink :to="$route.path + '/add'" class="button" title="Ajouter">
           <FaIcon icon="fa-solid fa-plus" />
         </RouterLink>
-        <button title="Supprimer">
+        <button title="Supprimer" :hidden="selectedArticles.size === 0">
           <FaIcon icon="fa-solid fa-trash-can" />
         </button>
       </nav>
@@ -28,7 +41,12 @@ const { articles } = useArticleStore()
           </tr>
         </thead>
         <tbody>
-          <tr v-for="a in articles" :key="a.id">
+          <tr
+            v-for="a in articles"
+            :key="a.id"
+            @click="select(a)"
+            :class="{ selected: selectedArticles.has(a) }"
+          >
             <td class="name">{{ a.name }}</td>
             <td class="price">{{ a.price }} €</td>
             <td class="qty">{{ a.qty }}</td>
