@@ -1,6 +1,11 @@
+<script setup lang="ts">
+import AppVersion from '../widgets/AppVersion.vue'
+</script>
+
 <template>
   <main>
     <h1>Mentions Légales</h1>
+    <AppVersion version="1.2.3" />
     <p>
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum accusamus corrupti ad
       cupiditate voluptatem deleniti omnis ipsum quo iusto. Dolore architecto incidunt corrupti
