@@ -1,3 +1,9 @@
+<script setup lang="ts">
+import { useArticleStore } from '../stores/article.store'
+
+const { articles } = useArticleStore()
+</script>
+
 <template>
   <main>
     <h1>Liste des articles</h1>
@@ -22,25 +28,10 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td class="name">Tournevis</td>
-            <td class="price">3.99 €</td>
-            <td class="qty">15</td>
-          </tr>
-          <tr>
-            <td class="name">Pelle</td>
-            <td class="price">7.50 €</td>
-            <td class="qty">8</td>
-          </tr>
-          <tr>
-            <td class="name">Marteau</td>
-            <td class="price">1.50 €</td>
-            <td class="qty">100</td>
-          </tr>
-          <tr>
-            <td class="name">Bêche</td>
-            <td class="price">16.00 €</td>
-            <td class="qty">50</td>
+          <tr v-for="a in articles" :key="a.id">
+            <td class="name">{{ a.name }}</td>
+            <td class="price">{{ a.price }} €</td>
+            <td class="qty">{{ a.qty }}</td>
           </tr>
         </tbody>
       </table>
