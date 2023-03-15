@@ -14,8 +14,10 @@ export const useArticleStore = defineStore('articles', () => {
     const article = { ...newArticle, id: generateId() }
     articles.value.push(article)
   }
-  const remove = () => {
-    throw new Error('not implemented')
+  const remove = (ids: string[]) => {
+    console.log('ids: ', ids)
+    articles.value = articles.value.filter((a) => !ids.includes(a.id))
+    console.log('articles.value: ', articles.value)
   }
 
   return { articles, total, add, remove }

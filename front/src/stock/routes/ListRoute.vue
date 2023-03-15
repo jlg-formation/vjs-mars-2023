@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import { useArticleStore } from '../stores/article.store'
 import type { Article } from '../stores/interfaces/article'
 
-const { articles } = useArticleStore()
+const articleStore = useArticleStore()
 
 const selectedArticles = ref(new Set<Article>())
 
@@ -14,6 +14,12 @@ const select = (a: Article) => {
     return
   }
   selectedArticles.value.add(a)
+}
+
+const remove = () => {
+  console.log('remove')
+  const ids = [...selectedArticles.value].map((a) => a.id)
+  articleStore.remove(ids)
 }
 </script>
 
@@ -28,7 +34,7 @@ const select = (a: Article) => {
         <RouterLink :to="$route.path + '/add'" class="button" title="Ajouter">
           <FaIcon icon="fa-solid fa-plus" />
         </RouterLink>
-        <button title="Supprimer" :hidden="selectedArticles.size === 0">
+        <button title="Supprimer" :hidden="selectedArticles.size === 0" @click="remove">
           <FaIcon icon="fa-solid fa-trash-can" />
         </button>
       </nav>
@@ -42,7 +48,7 @@ const select = (a: Article) => {
         </thead>
         <tbody>
           <tr
-            v-for="a in articles"
+            v-for="a in articleStore.articles"
             :key="a.id"
             @click="select(a)"
             :class="{ selected: selectedArticles.has(a) }"

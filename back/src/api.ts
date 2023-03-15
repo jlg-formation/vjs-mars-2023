@@ -1,9 +1,11 @@
-import { Router } from "express";
+import { Router, Request, Response } from "express";
 
 const app = Router();
 
-app.get("/date", (req, res) => {
+const date = (req: Request, res: Response) => {
   res.json({ date: new Date() });
-});
+};
+
+app.get("/date", date);
 
 export default app;
