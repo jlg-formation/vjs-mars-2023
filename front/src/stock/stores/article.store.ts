@@ -1,4 +1,4 @@
-import { generateId, sleep } from '@/misc'
+import { sleep } from '@/misc'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 import type { Article, NewArticle } from './interfaces/article'
@@ -9,11 +9,27 @@ export const useArticleStore = defineStore('articles', () => {
   const articles = ref<Article[]>([])
   const isLoading = ref(true)
   const total = computed(() => articles.value.length)
-  const add = (newArticle: NewArticle) => {
-    console.log('newArticle: ', newArticle)
-    const article = { ...newArticle, id: generateId() }
-    articles.value.push(article)
+  const add = async (newArticle: NewArticle) => {
+    try {
+      console.log('newArticle: ', newArticle)
+
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newArticle)
+      })
+      console.log('response: ', response)
+    } catch (err) {
+      console.log('err: ', err)
+    }
   }
+
+  const refresh = async () => {
+    await load()
+  }
+
   const remove = (ids: string[]) => {
     console.log('ids: ', ids)
     articles.value = articles.value.filter((a) => !ids.includes(a.id))
@@ -37,5 +53,5 @@ export const useArticleStore = defineStore('articles', () => {
   }
 
   load()
-  return { articles, isLoading, total, add, remove }
+  return { articles, isLoading, total, add, remove, refresh }
 })

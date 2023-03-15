@@ -6,12 +6,13 @@ import type { NewArticle } from '../stores/interfaces/article'
 
 const newArticle = ref<NewArticle>({ name: 'Truc', price: 1, qty: 2 })
 
-const { add } = useArticleStore()
+const { add, refresh } = useArticleStore()
 const router = useRouter()
 const route = useRoute()
 
-const onSubmit = () => {
-  add(newArticle.value)
+const onSubmit = async () => {
+  await add(newArticle.value)
+  await refresh()
   router.push(route.matched[0].path)
 }
 </script>
