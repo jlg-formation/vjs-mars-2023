@@ -37,11 +37,11 @@ const onSubmit = async () => {
       </label>
       <label>
         <span>Prix</span>
-        <input type="number" v-model="newArticle.price" />
+        <input type="number" v-model="newArticle.price" min="0" step="0.01" />
       </label>
       <label>
         <span>Quantité</span>
-        <input type="number" v-model="newArticle.qty" />
+        <input type="number" v-model="newArticle.qty" min="0" />
       </label>
       <div class="error">
         {{ errorMsg }}
