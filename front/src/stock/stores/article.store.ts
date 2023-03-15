@@ -74,6 +74,6 @@ export const useArticleStore = defineStore('articles', () => {
     }
   }
 
-  load()
+  load().catch(() => {})
   return { articles, isLoading, errorWhenLoading, total, add, remove, refresh }
 })

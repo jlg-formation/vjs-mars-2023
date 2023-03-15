@@ -27,5 +27,6 @@ describe('My First Test', () => {
     cy.intercept('GET', '/api/articles', {
       statusCode: 500
     })
+    cy.contains('Erreur de chargement')
   })
 })
