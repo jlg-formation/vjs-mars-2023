@@ -14,5 +14,8 @@
   ],
   "parserOptions": {
     "ecmaVersion": "latest"
+  },
+  "rules": {
+    "eqeqeq": "error"
   }
 }
