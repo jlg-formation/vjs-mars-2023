@@ -20,6 +20,7 @@ const remove = () => {
   console.log('remove')
   const ids = [...selectedArticles.value].map((a) => a.id)
   articleStore.remove(ids)
+  selectedArticles.value.clear()
 }
 </script>
 
