@@ -30,10 +30,24 @@ export const useArticleStore = defineStore('articles', () => {
     await load()
   }
 
-  const remove = (ids: string[]) => {
+  const remove = async (ids: string[]) => {
     console.log('ids: ', ids)
-    articles.value = articles.value.filter((a) => !ids.includes(a.id))
-    console.log('articles.value: ', articles.value)
+    try {
+      await sleep(300)
+      const response = await fetch(url, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(ids)
+      })
+      console.log('response: ', response)
+      if (response.status >= 400) {
+        throw new Error('Technical Error')
+      }
+    } catch (err) {
+      console.log('err: ', err)
+    }
   }
 
   const load = async () => {

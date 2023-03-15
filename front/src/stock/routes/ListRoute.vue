@@ -4,6 +4,7 @@ import { useArticleStore } from '../stores/article.store'
 import type { Article } from '../stores/interfaces/article'
 
 const isRefreshing = ref(false)
+const isRemoving = ref(false)
 
 const articleStore = useArticleStore()
 
@@ -18,11 +19,14 @@ const select = (a: Article) => {
   selectedArticles.value.add(a)
 }
 
-const remove = () => {
+const remove = async () => {
+  isRemoving.value = true
   console.log('remove')
   const ids = [...selectedArticles.value].map((a) => a.id)
-  articleStore.remove(ids)
+  await articleStore.remove(ids)
+  await articleStore.refresh()
   selectedArticles.value.clear()
+  isRemoving.value = false
 }
 
 const onRefresh = async () => {
@@ -46,8 +50,16 @@ const onRefresh = async () => {
         <RouterLink :to="$route.path + '/add'" class="button" title="Ajouter">
           <FaIcon icon="fa-solid fa-plus" />
         </RouterLink>
-        <button title="Supprimer" :hidden="selectedArticles.size === 0" @click="remove">
-          <FaIcon icon="fa-solid fa-trash-can" />
+        <button
+          title="Supprimer"
+          :hidden="selectedArticles.size === 0"
+          @click="remove"
+          :disabled="isRemoving"
+        >
+          <FaIcon
+            :icon="'fa-solid ' + (isRemoving ? 'fa-circle-notch' : 'fa-trash-can')"
+            :spin="isRemoving"
+          />
         </button>
       </nav>
       <table>
