@@ -2,8 +2,9 @@ import { sleep } from '@/misc'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 import type { Article, NewArticle } from './interfaces/article'
+import { config } from '../../conf'
 
-const url = 'http://localhost:3000/api/articles'
+const url = config.domainUrl + '/api/articles'
 
 export const useArticleStore = defineStore('articles', () => {
   const articles = ref<Article[]>([])

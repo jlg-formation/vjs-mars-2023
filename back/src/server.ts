@@ -5,20 +5,20 @@ import serveIndex from "serve-index";
 import api from "./api";
 
 const app = express();
-const port = 3000;
-const publicDir = ".";
+const port = +(process.env.GSTOCK_PORT || 3000);
+const publicDir = "../front/dist";
 
 app.use((req, res, next) => {
   console.log("req: ", req.method, req.url);
   next();
 });
 
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Headers", "*");
-  res.setHeader("Access-Control-Allow-Methods", "*");
-  next();
-});
+// app.use((req, res, next) => {
+//   res.setHeader("Access-Control-Allow-Origin", "*");
+//   res.setHeader("Access-Control-Allow-Headers", "*");
+//   res.setHeader("Access-Control-Allow-Methods", "*");
+//   next();
+// });
 
 app.use("/api", api);
 
