@@ -7,13 +7,20 @@ import router from './router'
 import './assets/main.scss'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faAngleRight, faPlus, faRotateRight, faTrashCan } from '@fortawesome/free-solid-svg-icons'
+import {
+  faAngleRight,
+  faCircleNotch,
+  faPlus,
+  faRotateRight,
+  faTrashCan
+} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 library.add(faPlus)
 library.add(faAngleRight)
 library.add(faRotateRight)
 library.add(faTrashCan)
+library.add(faCircleNotch)
 
 const app = createApp(App)
 

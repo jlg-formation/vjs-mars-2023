@@ -48,7 +48,16 @@ const remove = () => {
           </tr>
         </thead>
         <tbody>
+          <tr v-if="articleStore.isLoading">
+            <td colspan="3">
+              <div class="loading">
+                <FaIcon icon="fa-solid fa-circle-notch" :spin="true" />
+                <span>Chargement...</span>
+              </div>
+            </td>
+          </tr>
           <tr
+            v-else
             v-for="a in articleStore.articles"
             :key="a.id"
             @click="select(a)"
@@ -106,5 +115,12 @@ table {
       background-color: #ccc;
     }
   }
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5em;
 }
 </style>
