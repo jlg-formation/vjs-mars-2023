@@ -4,6 +4,8 @@ import { useRoute, useRouter } from 'vue-router'
 import { useArticleStore } from '../stores/article.store'
 import type { NewArticle } from '../stores/interfaces/article'
 
+const isSubmitting = ref(false)
+
 const newArticle = ref<NewArticle>({ name: 'Truc', price: 1, qty: 2 })
 
 const { add, refresh } = useArticleStore()
@@ -11,9 +13,11 @@ const router = useRouter()
 const route = useRoute()
 
 const onSubmit = async () => {
+  isSubmitting.value = true
   await add(newArticle.value)
   await refresh()
-  router.push(route.matched[0].path)
+  await router.push(route.matched[0].path)
+  isSubmitting.value = false
 }
 </script>
 
@@ -33,8 +37,11 @@ const onSubmit = async () => {
         <span>Quantité</span>
         <input type="number" v-model="newArticle.qty" />
       </label>
-      <button class="primary" type="submit">
-        <FaIcon icon="fa-solid fa-plus" />
+      <button class="primary" type="submit" :disabled="isSubmitting">
+        <FaIcon
+          :icon="'fa-solid ' + (isSubmitting ? 'fa-circle-notch' : 'fa-plus')"
+          :spin="isSubmitting"
+        />
         <span>Ajouter</span>
       </button>
     </form>

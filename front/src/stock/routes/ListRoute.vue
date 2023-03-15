@@ -3,6 +3,8 @@ import { ref } from 'vue'
 import { useArticleStore } from '../stores/article.store'
 import type { Article } from '../stores/interfaces/article'
 
+const isRefreshing = ref(false)
+
 const articleStore = useArticleStore()
 
 const selectedArticles = ref(new Set<Article>())
@@ -22,6 +24,12 @@ const remove = () => {
   articleStore.remove(ids)
   selectedArticles.value.clear()
 }
+
+const onRefresh = async () => {
+  isRefreshing.value = true
+  await articleStore.refresh()
+  isRefreshing.value = false
+}
 </script>
 
 <template>
@@ -29,8 +37,11 @@ const remove = () => {
     <h1>Liste des articles</h1>
     <div class="content">
       <nav>
-        <button title="Rafraîchir">
-          <FaIcon icon="fa-solid fa-rotate-right" />
+        <button title="Rafraîchir" @click="onRefresh" :disabled="isRefreshing">
+          <FaIcon
+            :icon="'fa-solid ' + (isRefreshing ? 'fa-circle-notch' : 'fa-rotate-right')"
+            :spin="isRefreshing"
+          />
         </button>
         <RouterLink :to="$route.path + '/add'" class="button" title="Ajouter">
           <FaIcon icon="fa-solid fa-plus" />
