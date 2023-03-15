@@ -6,6 +6,8 @@ import type { Article } from '../stores/interfaces/article'
 const isRefreshing = ref(false)
 const isRemoving = ref(false)
 
+const errorMsg = ref('')
+
 const articleStore = useArticleStore()
 
 const selectedArticles = ref(new Set<Article>())
@@ -20,19 +22,28 @@ const select = (a: Article) => {
 }
 
 const remove = async () => {
-  isRemoving.value = true
-  console.log('remove')
-  const ids = [...selectedArticles.value].map((a) => a.id)
-  await articleStore.remove(ids)
-  await articleStore.refresh()
-  selectedArticles.value.clear()
-  isRemoving.value = false
+  try {
+    isRemoving.value = true
+    errorMsg.value = ''
+    console.log('remove')
+    const ids = [...selectedArticles.value].map((a) => a.id)
+    await articleStore.remove(ids)
+    await articleStore.refresh()
+    selectedArticles.value.clear()
+  } catch (err) {
+    errorMsg.value = 'Erreur Technique'
+  } finally {
+    isRemoving.value = false
+  }
 }
 
 const onRefresh = async () => {
-  isRefreshing.value = true
-  await articleStore.refresh()
-  isRefreshing.value = false
+  try {
+    isRefreshing.value = true
+    await articleStore.refresh()
+  } finally {
+    isRefreshing.value = false
+  }
 }
 </script>
 
@@ -62,6 +73,9 @@ const onRefresh = async () => {
           />
         </button>
       </nav>
+      <div class="error">
+        {{ errorMsg }} {{ articleStore.errorWhenLoading ? 'Erreur de chargement' : '' }}
+      </div>
       <table>
         <thead>
           <tr>
@@ -145,5 +159,12 @@ table {
   justify-content: center;
   align-items: center;
   gap: 0.5em;
+}
+
+div.error {
+  font-weight: bold;
+  height: 1em;
+  display: flex;
+  align-items: center;
 }
 </style>

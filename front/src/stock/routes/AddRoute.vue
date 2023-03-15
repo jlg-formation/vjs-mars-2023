@@ -5,6 +5,7 @@ import { useArticleStore } from '../stores/article.store'
 import type { NewArticle } from '../stores/interfaces/article'
 
 const isSubmitting = ref(false)
+const errorMsg = ref('')
 
 const newArticle = ref<NewArticle>({ name: 'Truc', price: 1, qty: 2 })
 
@@ -13,11 +14,16 @@ const router = useRouter()
 const route = useRoute()
 
 const onSubmit = async () => {
-  isSubmitting.value = true
-  await add(newArticle.value)
-  await refresh()
-  await router.push(route.matched[0].path)
-  isSubmitting.value = false
+  try {
+    isSubmitting.value = true
+    await add(newArticle.value)
+    await refresh()
+    await router.push(route.matched[0].path)
+  } catch (err) {
+    errorMsg.value = 'Erreur Technique'
+  } finally {
+    isSubmitting.value = false
+  }
 }
 </script>
 
@@ -37,6 +43,9 @@ const onSubmit = async () => {
         <span>Quantité</span>
         <input type="number" v-model="newArticle.qty" />
       </label>
+      <div class="error">
+        {{ errorMsg }}
+      </div>
       <button class="primary" type="submit" :disabled="isSubmitting">
         <FaIcon
           :icon="'fa-solid ' + (isSubmitting ? 'fa-circle-notch' : 'fa-plus')"
@@ -68,9 +77,13 @@ form {
       border-radius: var(--border-radius);
     }
   }
+}
 
-  button {
-    margin-top: 3em;
-  }
+div.error {
+  height: 3em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
 }
 </style>
